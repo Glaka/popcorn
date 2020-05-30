@@ -1,12 +1,14 @@
-const path = require('path');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path')
+const {CleanWebpackPlugin} = require('clean-webpack-plugin')
+const HTMLWebpackPlugin = require('html-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const prod = process.env.NODE_ENV === 'production';
-const filename = (name) => (prod ? `bundle.[hash].${name}` : `bundle.${name}`);
-console.log(prod);
+const isProd = process.env.NODE_ENV === 'production'
+const isDev = !isProd
+
+const filename = (ext) => isDev ? `bundle.${ext}` : `bundle.[hash].${ext}`
+
 const jsLoaders = () => {
   const loaders = [
     {
@@ -15,12 +17,14 @@ const jsLoaders = () => {
         presets: ['@babel/preset-env'],
       },
     },
-  ];
+  ]
 
-  !prod ? loaders.push('eslint-loaders') : loaders;
+  if (isDev) {
+    loaders.push('eslint-loader')
+  }
 
-  return loaders;
-};
+  return loaders
+}
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
@@ -37,33 +41,28 @@ module.exports = {
       '@core': path.resolve(__dirname, 'src/core'),
     },
   },
-  devtool: prod ? false : 'source-map',
+  devtool: isDev ? 'source-map' : false,
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true,
-    open: true,
-    hot: !prod,
-    port: 9000,
+    port: 3000,
+    hot: isDev,
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: filename('css'),
-    }),
     new HTMLWebpackPlugin({
       template: 'index.html',
       minify: {
-        removeComments: prod,
-        collapseWhitespace: prod,
+        removeComments: isProd,
+        collapseWhitespace: isProd,
       },
     }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, 'src/fav.png'),
-          to: path.resolve(__dirname, 'dist'),
-        },
-      ],
+    new CopyPlugin([
+      {
+        from: path.resolve(__dirname, 'src/favicon.ico'),
+        to: path.resolve(__dirname, 'dist'),
+      },
+    ]),
+    new MiniCssExtractPlugin({
+      filename: filename('css'),
     }),
   ],
   module: {
@@ -74,8 +73,8 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              hmr: !prod,
-              reload: true,
+              hmr: isDev,
+              reloadAll: true,
             },
           },
           'css-loader',
@@ -84,9 +83,9 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
         use: jsLoaders(),
       },
     ],
   },
-};
+}
