@@ -1,7 +1,19 @@
-import {DomListener} from '@core/DomListener';
+import { DomListener } from '@core/DomListener';
 
 export class ExcelComponent extends DomListener {
-  toHTML() {
-    return ''
-  }
+    constructor($root, options = {}) {
+        super($root, options.listeners);
+    }
+    // Возвращает шаблон компонента
+    toHTML() {
+        return '';
+    }
+
+    init() {
+        this.initDOMlisteners();
+    }
+
+    destroy() {
+        this.removeDOMlisteners();
+    }
 }

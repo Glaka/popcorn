@@ -7,7 +7,13 @@
     },
     "rules": {
         "semi": "off",
-        "require-jsdoc": "off"
+        "require-jsdoc": "off",
+        // "indent":  ["error", 4],
+        "indent": "off",
+        "object-curly-spacing": "off",
+        "no-debugger": "off",
+        "operator-linebreak": "off",
+        "no-unused-vars": "warn"
     },
     "extends": ["eslint:recommended", "google"]
 }
