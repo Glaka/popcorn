@@ -3,7 +3,6 @@ import { Header } from '@/components/header/Header';
 import { Toolbar } from '@/components/toolbar/Toolbar';
 import { Formula } from '@/components/formula/Formula';
 import { Table } from '@/components/table/Table';
-import { capitalize } from '@core/utils';
 import './scss/index.scss';
 
 const excel = new Excel('#app', {
@@ -11,5 +10,3 @@ const excel = new Excel('#app', {
 });
 
 excel.render();
-
-capitalize('string');
