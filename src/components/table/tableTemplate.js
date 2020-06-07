@@ -11,13 +11,19 @@ const createColumn = (text) => {
     return `
     <div class="column">
     ${text}
+    <div class="col-resize" data-resize="col"></div>
     </div>
     `;
 };
 const createRow = (data, index = '') => {
+    console.log();
     return `
     <div class="row">
-        <div class="row-info">${index}</div>
+        <div class="row-info">
+        ${index}
+        
+        ${index > 0 ? '<div class="row-resize" data-resize="row"></div>' : ''}
+        </div>
         <div class="row-data">${data}</div>
     </div>`;
 };
@@ -39,7 +45,7 @@ export const createTable = (rowsCount = 10) => {
         const cols = new Array(colsCount)
             .fill('')
             .map(createCell)
-            .map(createColumn)
+            // .map(createColumn)
             .join('');
         rows.push(createRow(cols, i + 1));
     }
@@ -48,7 +54,6 @@ export const createTable = (rowsCount = 10) => {
         Array.isArray(rows) && rows.length > 0
             ? rows.join('')
             : '<h1>no row elements</h1>';
-    console.log(toRender);
     return toRender;
 };
 
