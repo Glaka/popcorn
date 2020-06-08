@@ -16,22 +16,20 @@ class Table extends ExcelComponent {
     }
 
     onMousedown(e: any) {
-        console.log('s');
         const $resizer = $(e.target);
-        console.log($resizer.data)
-        console.log($resizer.data.resize)
         const $parent = $resizer.closest('[data-resizeable="true"]');
-        const relElements = this.$root.findAll(`[data-col="${$parent.data.col}"]`);
-
+        const resizeType = $resizer.data.resize
+        const relElements = this.$root.findAll(`[data-${resizeType}="${$parent.data[resizeType]}"]`);
+        const isCol = resizeType === 'col' ? true : false;
+        const side = isCol ? 'width' : 'height';
         const cords = $parent.getCoordinates();
 
-        document.onmousemove = (e) => {
-            const delta = Math.floor(e.pageX - cords.right)
-            const elWidth = cords.width + delta;
-            console.log(this.$root);
-            $parent.$el.style.width = `${elWidth}px`;
+        document.onmousemove = (e: MouseEvent) => {
+            const delta = isCol ? Math.floor(e.pageX - cords.right) : Math.floor(e.pageY - cords.bottom);
+            const elSize = cords[side] + delta;
+            $parent.$el.style[side] = `${elSize}px`;
             relElements.forEach((element: HTMLElement) => {
-                element.style.width = `${elWidth}px`;
+                element.style[side] = `${elSize}px`;
             });
         };
         document.onmouseup = () => {
