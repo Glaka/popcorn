@@ -31,6 +31,10 @@ class Dom {
     return $(this.$el.closest(selector))
   }
 
+  css(styles: { [key: string]: string }) {
+    Object.keys(styles).forEach((styleName: any) => this.$el.style[styleName] = styles[styleName]);
+  }
+
   getCoordinates() {
     return this.$el.getBoundingClientRect()
   }
