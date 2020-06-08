@@ -3,8 +3,10 @@ const CODES = {
     Z: 90,
 };
 
-const createCell = (text = 'text', index: number) => {
-    return `<div class="cell"  data-col="${index}" contenteditable>${text}</div>`;
+const createCell = (row: number) => {
+    return (text = 'text', col: number) => {
+        return `<div class="cell"  data-col="${col}" data-id="#${row}:${col}" contenteditable>${text}</div>`;
+    }
 };
 
 const createColumn = (text: string, index: number) => {
@@ -40,12 +42,12 @@ const createTable = (rowsCount = 10) => {
 
     rows.push(createRow(cols));
 
-    for (let i = 0; i < rowsCount; i++) {
+    for (let row = 0; row < rowsCount; row++) {
         const cols = new Array(colsCount)
             .fill('')
-            .map(createCell)
+            .map(createCell(row))
             .join('');
-        rows.push(createRow(cols, i + 1));
+        rows.push(createRow(cols, row + 1));
     }
 
     const toRender =

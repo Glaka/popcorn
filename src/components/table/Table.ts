@@ -1,3 +1,4 @@
+import { TableSelection } from './TableSelection';
 import { tableResizeHandler } from './tableResizeHandler';
 import createTable from "./tableTemplate";
 import { ExcelComponent } from "../../core/ExcelComponent";
@@ -9,7 +10,7 @@ class Table extends ExcelComponent {
     constructor($root: any) {
         super($root, {
             name: 'Table',
-            listeners: ['mousedown', 'mousemove', 'mouseup'],
+            listeners: ['mousedown'],
         });
     }
     toHTML() {
@@ -20,11 +21,17 @@ class Table extends ExcelComponent {
         if (shouldResize(e)) return null;
         tableResizeHandler(e, this.$root)
     }
-    onMousemove(e: any) {
-        // console.log(e);
+
+    prepare() {
+        console.log('prepare');
+        this.selected = new TableSelection();
     }
-    onMouseup(e: any) {
-        // console.log(e);
+
+    init() {
+        super.init();
+        console.log('init table');
+        const $cellSelected = this.$root.find('[data-id="#0:0"]')
+        this.selected.select($cellSelected)
     }
 }
 export default Table

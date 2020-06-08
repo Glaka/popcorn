@@ -35,12 +35,28 @@ class Dom {
     Object.keys(styles).forEach((styleName: any) => this.$el.style[styleName] = styles[styleName]);
   }
 
+  addClass(className: string) {
+    // addClass(el: any, className: string[] | string) {
+    this.$el.classList.add(className);
+    // if (Array.isArray(className)) {
+    //   className.forEach(class=> this.$el.classList.add(class))
+    // } else this.$el.classList.add(className);
+  }
+
+  removeClass(className: any) {
+    this.$el.classList.remove(className);
+  }
+
   getCoordinates() {
     return this.$el.getBoundingClientRect()
   }
 
   get data() {
     return this.$el.dataset
+  }
+
+  find(selector: string) {
+    return $(this.$el.querySelector(selector))
   }
 
   findAll(selector: string) {
