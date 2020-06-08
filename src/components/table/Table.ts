@@ -23,13 +23,12 @@ class Table extends ExcelComponent {
     }
 
     prepare() {
-        console.log('prepare');
+        // console.log('prepare');
         this.selected = new TableSelection();
     }
 
     init() {
         super.init();
-        console.log('init table');
         const $cellSelected = this.$root.find('[data-id="#0:0"]')
         this.selected.select($cellSelected)
     }

@@ -1,5 +1,5 @@
 class Dom {
-  $el: HTMLElement
+  $el: any
   constructor(selector: string | HTMLElement) {
     this.$el = typeof selector === 'string'
       ? document.querySelector(selector)
@@ -35,17 +35,23 @@ class Dom {
     Object.keys(styles).forEach((styleName: any) => this.$el.style[styleName] = styles[styleName]);
   }
 
-  addClass(className: string) {
-    // addClass(el: any, className: string[] | string) {
-    this.$el.classList.add(className);
-    // if (Array.isArray(className)) {
-    //   className.forEach(class=> this.$el.classList.add(class))
-    // } else this.$el.classList.add(className);
+  changeClass(type: any) {
+    return (className: any) => {
+      if (Array.isArray(className)) {
+        className.forEach(name => this.$el.classList[type](name))
+      } else this.$el.classList[type](className);
+
+    };
+  }
+
+  addClass(className: any) {
+    this.changeClass('add')(className);
   }
 
   removeClass(className: any) {
-    this.$el.classList.remove(className);
+    this.changeClass('remove')(className);
   }
+
 
   getCoordinates() {
     return this.$el.getBoundingClientRect()

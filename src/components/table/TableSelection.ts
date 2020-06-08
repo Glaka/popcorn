@@ -6,7 +6,7 @@ export class TableSelection {
 
     select($el: any) {
         this.group.push($el)
-        $el.addClass('selected')
+        $el.addClass(['selected'])
     }
     selectGroup() { }
 }
