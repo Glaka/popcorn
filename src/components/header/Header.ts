@@ -1,7 +1,14 @@
-import {ExcelComponent} from '@core/ExcelComponent'
+import { ExcelComponent } from "../../core/ExcelComponent"
 
-export class Header extends ExcelComponent {
-  static className = 'excel__header'
+class Header extends ExcelComponent {
+  static className = 'excel__header';
+
+  constructor($root: any) {
+    super($root, {
+      name: 'Header',
+      // listeners: ['mousedown', 'mousemove', 'mouseup'],
+    });
+  }
 
   toHTML() {
     return `
@@ -21,3 +28,5 @@ export class Header extends ExcelComponent {
     `
   }
 }
+
+export default Header

@@ -3,22 +3,21 @@ const CODES = {
     Z: 90,
 };
 
-const createCell = (text = 'text') => {
-    return `<div class="cell" contenteditable>${text}</div>`;
+const createCell = (text = 'text', index: number) => {
+    return `<div class="cell"  data-col="${index}" contenteditable>${text}</div>`;
 };
 
-const createColumn = (text) => {
+const createColumn = (text: string, index: number) => {
     return `
-    <div class="column">
+    <div class="column" data-resizeable="true" data-col="${index}">
     ${text}
     <div class="col-resize" data-resize="col"></div>
     </div>
     `;
 };
-const createRow = (data, index = '') => {
-    console.log();
+const createRow = (data: string, index: string | number = '') => {
     return `
-    <div class="row">
+    <div class="row" ${index > 0 && `data-resizeable="true" data-row="${index}"`}>
         <div class="row-info">
         ${index}
         
@@ -28,9 +27,9 @@ const createRow = (data, index = '') => {
     </div>`;
 };
 
-const toChar = (_, index) => String.fromCharCode(CODES.A + index);
+const toChar = (_: null, index: number) => String.fromCharCode(CODES.A + index);
 
-export const createTable = (rowsCount = 10) => {
+const createTable = (rowsCount = 10) => {
     const colsCount = CODES.Z - CODES.A + 1;
     const rows = [];
     const cols = new Array(colsCount)
@@ -45,7 +44,6 @@ export const createTable = (rowsCount = 10) => {
         const cols = new Array(colsCount)
             .fill('')
             .map(createCell)
-            // .map(createColumn)
             .join('');
         rows.push(createRow(cols, i + 1));
     }
@@ -57,4 +55,5 @@ export const createTable = (rowsCount = 10) => {
     return toRender;
 };
 
-console.log(typeof createTable);
+export default createTable
+// console.log(typeof createTable);
