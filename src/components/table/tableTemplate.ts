@@ -5,7 +5,12 @@ const CODES = {
 
 const createCell = (row: number) => {
     return (text = 'text', col: number) => {
-        return `<div class="cell"  data-col="${col}" data-id="#${row}:${col}" contenteditable>${text}</div>`;
+        return `<div 
+            class="cell"  
+            data-col="${col}" 
+            data-id="#${row}:${col}" 
+            data-type="cell"
+            contenteditable>${text}</div>`;
     }
 };
 

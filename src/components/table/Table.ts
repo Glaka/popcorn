@@ -1,8 +1,10 @@
 import { TableSelection } from './TableSelection';
 import { tableResizeHandler } from './tableResizeHandler';
 import createTable from "./tableTemplate";
+import { $ } from '../../core/dom';
+
 import { ExcelComponent } from "../../core/ExcelComponent";
-import { shouldResize } from './tableUtils';
+import { shouldResize, shouldCellSelect } from './tableUtils';
 
 class Table extends ExcelComponent {
     static className = 'excel__table';
@@ -18,8 +20,15 @@ class Table extends ExcelComponent {
     }
 
     onMousedown(e: any): () => void {
-        if (shouldResize(e)) return null;
-        tableResizeHandler(e, this.$root)
+        console.log(shouldResize(e));
+        if (shouldResize(e)) {
+            tableResizeHandler(e, this.$root)
+        } else if (shouldCellSelect(e)) {
+            const $target = $(event.target);
+            this.selected.select($target)
+            console.log(e.target.dataset);
+        }
+        return null
     }
 
     prepare() {
