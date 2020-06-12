@@ -52,6 +52,16 @@ class Dom {
     this.changeClass('remove')(className);
   }
 
+  id(parse?: any) {
+    if (parse) {
+      const parsed: any = this.id().replace('#', '').split(":")
+      return {
+        row: +parsed[0],
+        col: +parsed[1]
+      }
+    }
+    return this.data.id
+  }
 
   getCoordinates() {
     return this.$el.getBoundingClientRect()
