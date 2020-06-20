@@ -1,17 +1,17 @@
-import { range } from "../../core/utils";
+import { range, ANY_TODO } from "../../core/utils";
 
-export const shouldResize = (event: any): boolean => {
+export const shouldResize = (event: ANY_TODO): boolean => {
     return !event.target.dataset.resize ? false : true
 }
 
-export const shouldCellSelect = (event: any): boolean => {
+export const shouldCellSelect = (event: ANY_TODO): boolean => {
     return event.target.dataset.type === 'cell'
 }
 
-export const getCellsMatrix = (target: any, current: any) => {
+export const getCellsMatrix = (target: ANY_TODO, current: ANY_TODO) => {
     const colsRange = range(target.col, current.col);
     const rowsRange = range(target.row, current.row);
-    return colsRange.reduce((acc: any, col: number) => {
+    return colsRange.reduce((acc: ANY_TODO, col: number) => {
         rowsRange.forEach((row: number) => {
             acc.push(`#${row}:${col}`)
         });

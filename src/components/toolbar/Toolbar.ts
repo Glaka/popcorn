@@ -1,12 +1,13 @@
 import { ExcelComponent } from "../../core/ExcelComponent"
+import { ANY_TODO } from "../../core/utils"
 
 export class Toolbar extends ExcelComponent {
   static className = 'excel__toolbar'
 
-  constructor($root: any) {
+  constructor($root: ANY_TODO) {
     super($root, {
       name: 'Toolbar',
-      listeners: ['click']
+      listeners: []
     })
   }
 
@@ -38,8 +39,6 @@ export class Toolbar extends ExcelComponent {
     `
   }
 
-  onClick(event: any) {
-  }
 }
 
 export default Toolbar

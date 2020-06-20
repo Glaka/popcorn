@@ -1,10 +1,11 @@
 import { $ } from '../../core/dom';
+import { ANY_TODO } from '../../core/utils';
 
 class Excel {
-  $el: any;
-  components: any;
+  $el: ANY_TODO;
+  components: ANY_TODO;
 
-  constructor(selector: string, options: any) {
+  constructor(selector: string, options: ANY_TODO) {
     this.$el = $(selector)
     this.components = options.components || []
   }
@@ -12,7 +13,7 @@ class Excel {
   getRoot() {
     const $root = $.create('div', 'excel')
 
-    this.components = this.components.map((Component: any) => {
+    this.components = this.components.map((Component: ANY_TODO) => {
       const $el = $.create('div', Component.className)
       const component = new Component($el)
       // DEBUG
@@ -30,7 +31,7 @@ class Excel {
   render() {
     this.$el.append(this.getRoot())
 
-    this.components.forEach((component: any) => component.init())
+    this.components.forEach((component: ANY_TODO) => component.init())
   }
 }
 

@@ -1,6 +1,7 @@
 import { $ } from '../../core/dom';
+import { ANY_TODO } from '../../core/utils';
 
-export const tableResizeHandler = (e: any, $root: any) => {
+export const tableResizeHandler = (e: ANY_TODO, $root: ANY_TODO) => {
     const $resizer = $(e.target);
     const resizeType = $resizer.data.resize
     const $parent = $resizer.closest('[data-resizeable="true"]');
@@ -25,7 +26,7 @@ export const tableResizeHandler = (e: any, $root: any) => {
         document.onmouseup = null
         const sideResizer = isCol ? { 'height': '100%' } : { 'width': '100%' };
         const relElements = $root.findAll(`[data-${resizeType}="${$parent.data[resizeType]}"]`);
-        relElements.forEach((element: any) => element.style[side] = `${elSize}px`);
+        relElements.forEach((element: ANY_TODO) => element.style[side] = `${elSize}px`);
         $resizer.css({
             'opacity': '0',
             'transform': `translate(0px, 0px)`,

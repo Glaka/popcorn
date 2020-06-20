@@ -2,14 +2,14 @@ import { TableSelection } from './TableSelection';
 import { tableResizeHandler } from './tableResizeHandler';
 import createTable from "./tableTemplate";
 import { $ } from '../../core/dom';
-import { range } from '../../core/utils';
+import { ANY_TODO } from '../../core/utils';
 import { ExcelComponent } from "../../core/ExcelComponent";
 import { shouldResize, shouldCellSelect, getCellsMatrix } from './tableUtils';
 
 class Table extends ExcelComponent {
     static className = 'excel__table';
 
-    constructor($root: any) {
+    constructor($root: ANY_TODO) {
         super($root, {
             name: 'Table',
             listeners: ['mousedown'],
@@ -19,7 +19,7 @@ class Table extends ExcelComponent {
         return createTable(20);
     }
 
-    onMousedown(e: any | MouseEvent): () => void {
+    onMousedown(e: ANY_TODO | MouseEvent): () => void {
 
         if (shouldResize(e)) {
             tableResizeHandler(e, this.$root)

@@ -1,5 +1,7 @@
+import { ANY_TODO } from "./utils"
+
 class Dom {
-  $el: any
+  $el: ANY_TODO
   constructor(selector: string | HTMLElement) {
     this.$el = typeof selector === 'string'
       ? document.querySelector(selector)
@@ -32,11 +34,11 @@ class Dom {
   }
 
   css(styles: { [key: string]: string }) {
-    Object.keys(styles).forEach((styleName: any) => this.$el.style[styleName] = styles[styleName]);
+    Object.keys(styles).forEach((styleName: ANY_TODO) => this.$el.style[styleName] = styles[styleName]);
   }
 
-  changeClass(type: any) {
-    return (className: any) => {
+  changeClass(type: ANY_TODO) {
+    return (className: ANY_TODO) => {
       if (Array.isArray(className)) {
         className.forEach(name => this.$el.classList[type](name))
       } else this.$el.classList[type](className);
@@ -44,17 +46,18 @@ class Dom {
     };
   }
 
-  addClass(className: any) {
+  addClass(className: ANY_TODO) {
     this.changeClass('add')(className);
   }
 
-  removeClass(className: any) {
+  removeClass(className: ANY_TODO) {
     this.changeClass('remove')(className);
   }
 
-  id(parse?: any) {
+  id(parse?: ANY_TODO) {
+
     if (parse) {
-      const parsed: any = this.id().replace('#', '').split(":")
+      const parsed: ANY_TODO = this.id().replace('#', '').split(":")
       return {
         row: +parsed[0],
         col: +parsed[1]
@@ -79,7 +82,7 @@ class Dom {
     return this.$el.querySelectorAll(selector)
   }
 
-  append(node: any) {
+  append(node: ANY_TODO) {
     if (node instanceof Dom) {
       node = node.$el
     }
@@ -95,12 +98,12 @@ class Dom {
 }
 
 // event.target
-export function $(selector: any) {
+export function $(selector: ANY_TODO) {
   return new Dom(selector)
 }
 
 type sttt = string | string[]
-$.create = (tagName: string, classes: any = '') => {
+$.create = (tagName: string, classes: ANY_TODO = '') => {
   const el = document.createElement(tagName)
   if (classes) {
     el.classList.add(classes)
