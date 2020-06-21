@@ -2,6 +2,7 @@ import { ExcelComponent } from "../../core/ExcelComponent"
 import { ANY_TODO } from "../../core/utils"
 
 export class Toolbar extends ExcelComponent {
+  // console.log("Toolbar", Toolbar)
   static className = 'excel__toolbar'
 
   constructor($root: ANY_TODO) {

@@ -3,6 +3,7 @@ import { ANY_TODO } from "./utils"
 class Dom {
   $el: ANY_TODO
   constructor(selector: string | HTMLElement) {
+    // console.log("Dom -> $el", this.$el);
     this.$el = typeof selector === 'string'
       ? document.querySelector(selector)
       : selector
