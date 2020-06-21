@@ -1,8 +1,9 @@
 import { ExcelComponent } from "../../core/ExcelComponent"
+import { ANY_TODO } from "../../core/utils";
 class Formula extends ExcelComponent {
   static className = 'excel__formula'
 
-  constructor($root: any) {
+  constructor($root: ANY_TODO) {
     super($root, {
       name: 'Formula',
       listeners: ['input', 'click']
@@ -16,7 +17,7 @@ class Formula extends ExcelComponent {
     `
   }
 
-  onInput(event: any) {
+  onInput(event: ANY_TODO) {
     // console.log(this.$root)
     // console.log('Formula: onInput', event.target.textContent.trim())
   }

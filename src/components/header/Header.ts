@@ -1,9 +1,10 @@
 import { ExcelComponent } from "../../core/ExcelComponent"
+import { ANY_TODO } from "../../core/utils";
 
 class Header extends ExcelComponent {
   static className = 'excel__header';
 
-  constructor($root: any) {
+  constructor($root: ANY_TODO) {
     super($root, {
       name: 'Header',
       // listeners: ['mousedown', 'mousemove', 'mouseup'],

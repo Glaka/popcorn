@@ -1,6 +1,9 @@
+import { ANY_TODO } from "./utils"
+
 class Dom {
-  $el: HTMLElement
+  $el: ANY_TODO
   constructor(selector: string | HTMLElement) {
+    // console.log("Dom -> $el", this.$el);
     this.$el = typeof selector === 'string'
       ? document.querySelector(selector)
       : selector
@@ -32,7 +35,36 @@ class Dom {
   }
 
   css(styles: { [key: string]: string }) {
-    Object.keys(styles).forEach((styleName: any) => this.$el.style[styleName] = styles[styleName]);
+    Object.keys(styles).forEach((styleName: ANY_TODO) => this.$el.style[styleName] = styles[styleName]);
+  }
+
+  changeClass(type: ANY_TODO) {
+    return (className: ANY_TODO) => {
+      if (Array.isArray(className)) {
+        className.forEach(name => this.$el.classList[type](name))
+      } else this.$el.classList[type](className);
+
+    };
+  }
+
+  addClass(className: ANY_TODO) {
+    this.changeClass('add')(className);
+  }
+
+  removeClass(className: ANY_TODO) {
+    this.changeClass('remove')(className);
+  }
+
+  id(parse?: ANY_TODO) {
+
+    if (parse) {
+      const parsed: ANY_TODO = this.id().replace('#', '').split(":")
+      return {
+        row: +parsed[0],
+        col: +parsed[1]
+      }
+    }
+    return this.data.id
   }
 
   getCoordinates() {
@@ -43,11 +75,15 @@ class Dom {
     return this.$el.dataset
   }
 
+  find(selector: string) {
+    return $(this.$el.querySelector(selector))
+  }
+
   findAll(selector: string) {
     return this.$el.querySelectorAll(selector)
   }
 
-  append(node: any) {
+  append(node: ANY_TODO) {
     if (node instanceof Dom) {
       node = node.$el
     }
@@ -63,12 +99,12 @@ class Dom {
 }
 
 // event.target
-export function $(selector: any) {
+export function $(selector: ANY_TODO) {
   return new Dom(selector)
 }
 
 type sttt = string | string[]
-$.create = (tagName: string, classes: any = '') => {
+$.create = (tagName: string, classes: ANY_TODO = '') => {
   const el = document.createElement(tagName)
   if (classes) {
     el.classList.add(classes)

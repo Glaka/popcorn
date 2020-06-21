@@ -1,0 +1,11 @@
+{
+    "workbench.colorCustomizations": {
+        // "[Name of the Current Theme you are using]": {
+        "titleBar.activeBackground": "#701010",
+        "titleBar.activeForeground": "#ffffff",
+        "titleBar.inactiveBackground": "#7e7e7e",
+        "titleBar.inactiveForeground": "#ffffff"
+        // }
+    },
+    "window.titleBarStyle": "custom"
+}

@@ -1,11 +1,11 @@
-import { capitalize } from "./utils"
+import { capitalize, ANY_TODO } from "./utils"
 
 class DomListener {
-  $root: any
-  listeners: any
+  $root: ANY_TODO
+  listeners: string[]
   name: string
-  [key: string]: any
-  constructor($root: any, listeners: any = []) {
+  [key: string]: ANY_TODO
+  constructor($root: ANY_TODO, listeners: ANY_TODO = []) {
     if (!$root) {
       throw new Error(`No $root provided for DomListener!`)
     }
@@ -14,7 +14,7 @@ class DomListener {
   }
 
   initDOMListeners() {
-    this.listeners.forEach((listener: any) => {
+    this.listeners.forEach((listener: string) => {
       const method = getMethodName(listener)
       if (!this[method]) {
         const name = this.name || ''
@@ -25,11 +25,12 @@ class DomListener {
       this[method] = this[method].bind(this)
       // Тоже самое что и addEventListener
       this.$root.on(listener, this[method])
+      // console.log("DomListener -> initDOMListeners -> this.$root", this.$root)
     })
   }
 
   removeDOMListeners() {
-    this.listeners.forEach((listener: any) => {
+    this.listeners.forEach((listener: string) => {
       const method = getMethodName(listener)
       this.$root.off(listener, this[method])
     })
