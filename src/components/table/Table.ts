@@ -4,8 +4,7 @@ import { tableResizeHandler } from './tableResizeHandler';
 import createTable from "./tableTemplate";
 import { $ } from '../../core/dom';
 import { ExcelComponent } from "../../core/ExcelComponent";
-import { shouldResize, shouldCellSelect, getCellsMatrix } from './tableUtils';
-
+import { shouldResize, shouldCellSelect, getCellsMatrix, nextSelector, Keys } from './tableUtils';
 class Table extends ExcelComponent {
     static className = 'excel__table';
 
@@ -30,7 +29,7 @@ class Table extends ExcelComponent {
                 const current = this.selected.current.id(true)
                 const $cells = getCellsMatrix(target, current).map((id: string) => this.$root.find(`[data-id="${id}"]`))
                 this.selected.selectGroup($cells)
-            } else {
+            } else { // single select
                 this.selected.select($target)
             }
         }
@@ -38,16 +37,12 @@ class Table extends ExcelComponent {
     }
 
     onKeydown(event: KeyboardEvent) {
-        console.log(event);
-        const keys = [13, 9, 37, 38, 39, 40];
-        const { keyCode } = event;
-        if (keys.includes(keyCode)) {
+        const { key } = event;
+        if (Object.keys(Keys).filter(enumKey => enumKey === key) && !event.shiftKey) {
             event.preventDefault();
-            console.log(event.keyCode);
-            // const $next = null || this.$root.find();
-            // this.selection.select($next);
-
-
+            const id = this.selected.current.id(true);
+            const $next = this.$root.find(nextSelector(key, id));
+            this.selected.select($next);
         }
     }
 

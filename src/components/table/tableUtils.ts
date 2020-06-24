@@ -14,3 +14,35 @@ export const getCellsMatrix = (target: ANY_TODO, current: ANY_TODO) => {
         return acc
     }, [])
 };
+
+export enum Keys {
+    tab = "Tab",
+    enter = "Enter",
+    up = "ArrowUp",
+    down = "ArrowDown",
+    left = "ArrowLeft",
+    right = "ArrowRight",
+}
+
+type idSelectors = { row: number, col: number }
+export const nextSelector = (key: string, { row, col }: idSelectors) => {
+    switch (key) {
+        case Keys.down:
+        case Keys.enter:
+            row++
+            break;
+        case Keys.right:
+        case Keys.tab:
+            col++
+            break;
+        case Keys.up:
+            row--
+            break;
+        case Keys.left:
+            col--
+            break;
+        default:
+            break;
+    }
+    return `[data-id="#${row < 0 ? 0 : row}:${col < 0 ? 0 : col}"]`
+}

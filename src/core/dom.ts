@@ -98,6 +98,11 @@ class Dom {
 
     return this
   }
+
+  focus() {
+    this.$el.focus()
+    return this
+  }
 }
 
 // event.target
