@@ -1,9 +1,9 @@
+import { Ielement } from './../../core/types';
 import { ExcelComponent } from "../../core/ExcelComponent"
-import { ANY_TODO } from "../../core/utils";
 class Formula extends ExcelComponent {
   static className = 'excel__formula'
 
-  constructor($root: ANY_TODO) {
+  constructor($root: Ielement) {
     super($root, {
       name: 'Formula',
       listeners: ['input', 'click']
@@ -17,13 +17,10 @@ class Formula extends ExcelComponent {
     `
   }
 
-  onInput(event: ANY_TODO) {
-    // console.log(this.$root)
-    // console.log('Formula: onInput', event.target.textContent.trim())
+  onInput(event: InputEvent) {
   }
 
   onClick() {
-    // console.log('mk')
   }
 }
 export default Formula;

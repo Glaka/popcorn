@@ -1,11 +1,15 @@
 import { $ } from '../../core/dom';
 import { ANY_TODO } from '../../core/utils';
 
+type Ioptions = {
+  components?: object[]
+}
 class Excel {
   $el: ANY_TODO;
   components: ANY_TODO;
 
-  constructor(selector: string, options: ANY_TODO) {
+  constructor(selector: string, options: Ioptions) {
+
     this.$el = $(selector)
     this.components = options.components || []
   }
@@ -15,11 +19,13 @@ class Excel {
 
     this.components = this.components.map((Component: ANY_TODO) => {
       const $el = $.create('div', Component.className)
+      // console.log("Excel -> getRoot ->  $el", $el)
       const component = new Component($el)
       // DEBUG
-      // if (component.name) {
-      //   window[`c${component.name}`] = component
-      // }
+      if (component.name) {
+        // @ts-expect-error
+        window[`c${component.name}`] = component
+      }
       $el.html(component.toHTML())
       $root.append($el)
       return component

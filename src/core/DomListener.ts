@@ -1,11 +1,12 @@
 import { capitalize, ANY_TODO } from "./utils"
+import { Ielement } from "./types"
 
 class DomListener {
-  $root: ANY_TODO
+  $root: Ielement
   listeners: string[]
   name: string
   [key: string]: ANY_TODO
-  constructor($root: ANY_TODO, listeners: ANY_TODO = []) {
+  constructor($root: Ielement, listeners: ANY_TODO = []) {
     if (!$root) {
       throw new Error(`No $root provided for DomListener!`)
     }
@@ -25,7 +26,6 @@ class DomListener {
       this[method] = this[method].bind(this)
       // Тоже самое что и addEventListener
       this.$root.on(listener, this[method])
-      // console.log("DomListener -> initDOMListeners -> this.$root", this.$root)
     })
   }
 
@@ -38,7 +38,8 @@ class DomListener {
 }
 
 // input => onInput
-function getMethodName(eventName: string) {
+function getMethodName(eventName: string): string {
+  // In case of Error should be //@ts-expect-error
   return 'on' + capitalize(eventName)
 }
 

@@ -1,9 +1,8 @@
 import DomListener from "./DomListener"
-import { ANY_TODO } from "./utils";
+import { Ielement, rootOptions } from "./types";
 
 export class ExcelComponent extends DomListener {
-  name: ANY_TODO
-  constructor($root: ANY_TODO, options: ANY_TODO = {}) {
+  constructor($root: Ielement, options: rootOptions = {}) {
     super($root, options.listeners)
     this.name = options.name || '';
     this.prepare()
