@@ -1,6 +1,8 @@
+import { ANY_TODO } from './utils';
 export type rootOptions = {
     name?: string;
     listeners?: string[]
+    emitter?: ANY_TODO
     prepare?(): void
 }
 

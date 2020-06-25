@@ -1,13 +1,15 @@
+import { ANY_TODO } from './../../core/utils';
 import { Ielement } from './../../core/types';
 import { ExcelComponent } from "../../core/ExcelComponent"
 
 class Header extends ExcelComponent {
   static className = 'excel__header';
 
-  constructor($root: Ielement) {
+  constructor($root: Ielement, options: ANY_TODO) {
     super($root, {
       name: 'Header',
-      listeners: []
+      listeners: [],
+      ...options
     });
   }
 

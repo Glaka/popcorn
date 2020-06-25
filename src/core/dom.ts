@@ -56,6 +56,10 @@ class Dom {
     this.changeClass('remove')(className);
   }
 
+  text(text: string) {
+    this.$el.textContent = text
+  }
+
   id(parse?: boolean) {
 
     if (parse) {

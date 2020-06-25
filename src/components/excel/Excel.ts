@@ -1,3 +1,4 @@
+import { Emitter } from './../../core/Emitter';
 import { $ } from '../../core/dom';
 import { ANY_TODO } from '../../core/utils';
 
@@ -7,20 +8,23 @@ type Ioptions = {
 class Excel {
   $el: ANY_TODO;
   components: ANY_TODO;
+  emitter: Emitter;
 
   constructor(selector: string, options: Ioptions) {
-
     this.$el = $(selector)
     this.components = options.components || []
+    this.emitter = new Emitter();
   }
 
   getRoot() {
     const $root = $.create('div', 'excel')
+    const componentOptions = {
+      emitter: this.emitter
+    }
 
     this.components = this.components.map((Component: ANY_TODO) => {
       const $el = $.create('div', Component.className)
-      // console.log("Excel -> getRoot ->  $el", $el)
-      const component = new Component($el)
+      const component = new Component($el, componentOptions)
       // DEBUG
       if (component.name) {
         // @ts-expect-error
@@ -30,13 +34,11 @@ class Excel {
       $root.append($el)
       return component
     })
-
     return $root
   }
 
   render() {
     this.$el.append(this.getRoot())
-
     this.components.forEach((component: ANY_TODO) => component.init())
   }
 }

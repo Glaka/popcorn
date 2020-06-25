@@ -1,3 +1,4 @@
+import { ANY_TODO } from './../../core/utils';
 import { Ielement } from './../../core/types';
 import { TableSelection } from './TableSelection';
 import { tableResizeHandler } from './tableResizeHandler';
@@ -8,10 +9,12 @@ import { shouldResize, shouldCellSelect, getCellsMatrix, nextSelector, Keys } fr
 class Table extends ExcelComponent {
     static className = 'excel__table';
 
-    constructor($root: Ielement) {
+    constructor($root: Ielement, options: ANY_TODO
+    ) {
         super($root, {
             name: 'Table',
             listeners: ['mousedown', 'keydown'],
+            ...options
         });
     }
     toHTML() {
@@ -54,6 +57,9 @@ class Table extends ExcelComponent {
         super.init();
         const $cellSelected = this.$root.find('[data-id="#0:0"]')
         this.selected.select($cellSelected)
+        this.emitter.subscribe('formula:input_text', (text: string) => {
+            this.selected.current.text(text);
+        })
     }
 }
 export default Table
