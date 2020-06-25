@@ -22,7 +22,7 @@ class Formula extends ExcelComponent {
   // onInput(event: InputEvent) {
   onInput(event: ANY_TODO) {
     const text = event.target.textContent.trim();
-    this.emitter.dispatch('formula:input_text', text)
+    this.$dispatch('formula:input_text', text)
   }
 
 }

@@ -57,7 +57,7 @@ class Table extends ExcelComponent {
         super.init();
         const $cellSelected = this.$root.find('[data-id="#0:0"]')
         this.selected.select($cellSelected)
-        this.emitter.subscribe('formula:input_text', (text: string) => {
+        this.$on('formula:input_text', (text: string) => {
             this.selected.current.text(text);
         })
     }

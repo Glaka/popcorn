@@ -41,6 +41,12 @@ class Excel {
     this.$el.append(this.getRoot())
     this.components.forEach((component: ANY_TODO) => component.init())
   }
+
+  destroy() {
+    this.components.array.forEach((component: ANY_TODO) => {
+      component.destroy()
+    });
+  }
 }
 
 export default Excel;
