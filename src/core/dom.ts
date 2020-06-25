@@ -44,16 +44,17 @@ class Dom {
       if (Array.isArray(className)) {
         className.forEach(name => this.$el.classList[type](name))
       } else this.$el.classList[type](className);
-
     };
   }
 
   addClass(className: IclassName) {
     this.changeClass('add')(className);
+    return this
   }
 
   removeClass(className: IclassName) {
     this.changeClass('remove')(className);
+    return this
   }
 
   text(text?: string) {
