@@ -1,9 +1,10 @@
 import { ANY_TODO } from "./utils"
+import { IclassName } from "./types"
 
 class Dom {
-  $el: ANY_TODO
+  $el: ANY_TODO | null
   constructor(selector: string | HTMLElement) {
-    // console.log("Dom -> $el", this.$el);
+    // // console.log("Dom -> $el", this.$el);
     this.$el = typeof selector === 'string'
       ? document.querySelector(selector)
       : selector
@@ -35,30 +36,42 @@ class Dom {
   }
 
   css(styles: { [key: string]: string }) {
-    Object.keys(styles).forEach((styleName: ANY_TODO) => this.$el.style[styleName] = styles[styleName]);
+    Object.keys(styles).forEach((styleName: string) => this.$el.style[styleName] = styles[styleName]);
   }
 
-  changeClass(type: ANY_TODO) {
-    return (className: ANY_TODO) => {
+  changeClass(type: string) {
+    return (className: IclassName) => {
       if (Array.isArray(className)) {
         className.forEach(name => this.$el.classList[type](name))
       } else this.$el.classList[type](className);
-
     };
   }
 
-  addClass(className: ANY_TODO) {
+  addClass(className: IclassName) {
     this.changeClass('add')(className);
+    return this
   }
 
-  removeClass(className: ANY_TODO) {
+  removeClass(className: IclassName) {
     this.changeClass('remove')(className);
+    return this
   }
 
-  id(parse?: ANY_TODO) {
+  text(text?: string) {
+    if (typeof text === 'string') {
+      this.$el.textContent = text
+      return this
+    }
+    if (this.$el.tagName.toLowerCase() === 'input') {
+      return this.$el.value.trim()
+    }
+    return this.$el.textContent.trim()
+  }
+
+  id(parse?: boolean) {
 
     if (parse) {
-      const parsed: ANY_TODO = this.id().replace('#', '').split(":")
+      const parsed: string[] = this.id().replace('#', '').split(":")
       return {
         row: +parsed[0],
         col: +parsed[1]
@@ -84,6 +97,7 @@ class Dom {
   }
 
   append(node: ANY_TODO) {
+    // console.log("append -> node", node)
     if (node instanceof Dom) {
       node = node.$el
     }
@@ -96,15 +110,21 @@ class Dom {
 
     return this
   }
+
+  focus() {
+    this.$el.focus()
+    return this
+  }
 }
 
 // event.target
-export function $(selector: ANY_TODO) {
+export function $(selector: string | HTMLElement) {
+  // // console.log("selector", selector)
+  // // console.log("selector", typeof selector)
   return new Dom(selector)
 }
 
-type sttt = string | string[]
-$.create = (tagName: string, classes: ANY_TODO = '') => {
+$.create = (tagName: string, classes: string = '') => {
   const el = document.createElement(tagName)
   if (classes) {
     el.classList.add(classes)

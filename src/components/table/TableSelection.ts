@@ -1,19 +1,20 @@
-import { $ } from "../../core/dom";
-import { ANY_TODO } from "../../core/utils";
+// import { $ } from "../../core/dom";
+import { Ielement } from "../../core/types";
 
 export class TableSelection {
     static className = "selected";
 
-    group: ANY_TODO[];
-    current: ANY_TODO;
+    group: Ielement[];
+    current: Ielement;
     constructor() {
         this.group = []
         this.current = null
     }
 
-    select($el: ANY_TODO) {
+    select($el: Ielement) {
         this.clear()
         this.group.push($el)
+        $el.focus()
         $el.addClass([TableSelection.className])
         this.current = $el
     }
