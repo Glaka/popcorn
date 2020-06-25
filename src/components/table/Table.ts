@@ -5,7 +5,13 @@ import { tableResizeHandler } from './tableResizeHandler';
 import createTable from "./tableTemplate";
 import { $ } from '../../core/dom';
 import { ExcelComponent } from "../../core/ExcelComponent";
-import { shouldResize, shouldCellSelect, getCellsMatrix, nextSelector, Keys } from './tableUtils';
+import { shouldResize, shouldCellSelect, getCellsMatrix, nextSelector, TableKeys } from './tableUtils';
+import { FormulaEvents } from '../formula/Formula';
+
+export enum TableActions {
+    cellChange = 'table:cell_change',
+    cellInput = 'table:cell_input',
+}
 class Table extends ExcelComponent {
     static className = 'excel__table';
 
@@ -13,7 +19,7 @@ class Table extends ExcelComponent {
     ) {
         super($root, {
             name: 'Table',
-            listeners: ['mousedown', 'keydown'],
+            listeners: ['mousedown', 'keydown', 'input'],
             ...options
         });
     }
@@ -41,12 +47,17 @@ class Table extends ExcelComponent {
 
     onKeydown(event: KeyboardEvent) {
         const { key } = event;
-        if (Object.keys(Keys).filter(enumKey => enumKey === key) && !event.shiftKey) {
+        // @ts-expect-error
+        if (Object.keys(TableKeys).filter((enumKey: any) => TableKeys[enumKey] === key).length > 0 && !event.shiftKey) {
             event.preventDefault();
             const id = this.selected.current.id(true);
             const $next = this.$root.find(nextSelector(key, id));
-            this.selected.select($next);
+            this.selectCell($next)
         }
+    }
+
+    onInput(event: ANY_TODO) {
+        this.$dispatch(TableActions.cellInput, $(event.target).text())
     }
 
     prepare() {
@@ -55,11 +66,18 @@ class Table extends ExcelComponent {
 
     init() {
         super.init();
-        const $cellSelected = this.$root.find('[data-id="#0:0"]')
-        this.selected.select($cellSelected)
-        this.$on('formula:input_text', (text: string) => {
+        this.selectCell(this.$root.find('[data-id="#0:0"]'))
+        this.$on(FormulaEvents.typing, (text: string) => {
             this.selected.current.text(text);
         })
+        this.$on(FormulaEvents.enter, () => {
+            this.selected.current.focus()
+        })
+    }
+
+    selectCell($cell: ANY_TODO) {
+        this.selected.select($cell);
+        this.$dispatch(TableActions.cellChange, $cell)
     }
 }
 export default Table

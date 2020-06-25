@@ -56,8 +56,15 @@ class Dom {
     this.changeClass('remove')(className);
   }
 
-  text(text: string) {
-    this.$el.textContent = text
+  text(text?: string) {
+    if (typeof text === 'string') {
+      this.$el.textContent = text
+      return this
+    }
+    if (this.$el.tagName.toLowerCase() === 'input') {
+      return this.$el.value.trim()
+    }
+    return this.$el.textContent.trim()
   }
 
   id(parse?: boolean) {

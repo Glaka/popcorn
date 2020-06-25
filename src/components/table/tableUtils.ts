@@ -15,7 +15,7 @@ export const getCellsMatrix = (target: ANY_TODO, current: ANY_TODO) => {
     }, [])
 };
 
-export enum Keys {
+export enum TableKeys {
     tab = "Tab",
     enter = "Enter",
     up = "ArrowUp",
@@ -27,18 +27,18 @@ export enum Keys {
 type idSelectors = { row: number, col: number }
 export const nextSelector = (key: string, { row, col }: idSelectors) => {
     switch (key) {
-        case Keys.down:
-        case Keys.enter:
+        case TableKeys.down:
+        case TableKeys.enter:
             row++
             break;
-        case Keys.right:
-        case Keys.tab:
+        case TableKeys.right:
+        case TableKeys.tab:
             col++
             break;
-        case Keys.up:
+        case TableKeys.up:
             row--
             break;
-        case Keys.left:
+        case TableKeys.left:
             col--
             break;
         default:

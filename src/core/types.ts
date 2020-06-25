@@ -15,4 +15,5 @@ export type Ielement = {
     off(listener: string, method: string): void;
     find(dataID: string): Ielement;
     findAll(dataID: string): Ielement;
+    text?(): void
 } & HTMLElement
