@@ -15,7 +15,7 @@ export const tableResizeHandler = (e: MouseEvent, $root: Ielement) => {
 
         document.onmousemove = (e: MouseEvent) => {
             const delta = isCol ? Math.floor(e.pageX - cords.right) : Math.floor(e.pageY - cords.bottom);
-            elSize = cords[side] + delta;
+            elSize = Math.abs(cords[side] + delta);
             $resizer.css({
                 'opacity': '1',
                 'z-index': '100',

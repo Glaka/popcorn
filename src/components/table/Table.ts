@@ -38,7 +38,7 @@ class Table extends ExcelComponent {
             this.selected.current.focus()
         })
         this.$subscribe((state: ANY_TODO) => {
-            console.log('Tablestate', state);
+            // console.log('Tablestate', state);
         })
     }
 

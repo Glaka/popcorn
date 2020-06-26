@@ -12,3 +12,10 @@ export const range = (start: number, end: number) => {
 };
 
 export type ANY_TODO = any;
+
+export const storage = (key: ANY_TODO, data: ANY_TODO = null) => {
+  if (!data) {
+    return JSON.parse(localStorage.getItem(key))
+  }
+  localStorage.setItem(key, JSON.stringify(data))
+}

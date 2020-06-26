@@ -28,7 +28,7 @@ class Formula extends ExcelComponent {
       this.$formula.text(text)
     })
     this.$subscribe((state: ANY_TODO) => {
-      console.log('Formula state', state);
+      // console.log('Formula state', state);
     })
   }
   toHTML() {
