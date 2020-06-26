@@ -11,7 +11,10 @@ const initialState = {
     headerState: {},
     toolbarState: {},
     formulaState: {},
-    tableState: {},
+    tableState: {
+        cols: {},
+        rows: {}
+    },
 }
 const store = createStore(rootReducer, initialState);
 

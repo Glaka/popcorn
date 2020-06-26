@@ -42,10 +42,18 @@ class Table extends ExcelComponent {
         })
     }
 
-    onMousedown(e: MouseEvent): () => void {
+    async resizeTable(e: MouseEvent) {
+        try {
+            const data = await tableResizeHandler(e, this.$root)
+            this.$dispatch({ type: 'TABLE_RESIZE', data })
+        } catch (e) {
+            console.warn('error message', e)
+        }
+    }
 
+    onMousedown(e: MouseEvent): () => void {
         if (shouldResize(e)) {
-            tableResizeHandler(e, this.$root)
+            this.resizeTable(e);
         } else if (shouldCellSelect(e)) {
             const $target = $(event.target as HTMLElement);
             if (e.shiftKey) {
