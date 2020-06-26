@@ -4,6 +4,7 @@ export type rootOptions = {
     listeners?: string[]
     emitter?: ANY_TODO
     prepare?(): void
+    store?: object
 }
 
 export type IclassName = string | string[];

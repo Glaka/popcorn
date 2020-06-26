@@ -7,8 +7,10 @@ export class ExcelComponent extends DomListener {
     super($root, options.listeners)
     this.name = options.name || '';
     this.emitter = options.emitter;
+    this.store = options.store;
     this.prepare()
     this.unsubscribers = []
+    this.storeSub = null
     console.log("ExcelComponent -> constructor -> options", options)
   }
 
@@ -20,13 +22,21 @@ export class ExcelComponent extends DomListener {
     return ''
   }
 
-  $dispatch(event: ANY_TODO, ...args: ANY_TODO) {
+  $emit(event: ANY_TODO, ...args: ANY_TODO) {
     this.emitter.dispatch(event, ...args)
   }
 
   $on(event: ANY_TODO, fn: ANY_TODO) {
     const unsub = this.emitter.subscribe(event, fn);
     this.unsubscribers.push(unsub)
+  }
+
+  $dispatch(action: ANY_TODO) {
+    this.store.dispatch(action)
+  }
+
+  $subscribe(fn: ANY_TODO) {
+    this.storeSub = this.store.subscribe(fn)
   }
 
   init() {
@@ -36,5 +46,6 @@ export class ExcelComponent extends DomListener {
   destroy() {
     this.removeDOMListeners()
     this.unsubscribers.forEach((unsub: ANY_TODO) => unsub());
+    this.storeSub.unsubscribe();
   }
 }

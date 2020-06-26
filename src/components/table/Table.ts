@@ -23,8 +23,23 @@ class Table extends ExcelComponent {
             ...options
         });
     }
+
     toHTML() {
         return createTable(20);
+    }
+
+    init() {
+        super.init();
+        this.selectCell(this.$root.find('[data-id="#0:0"]'))
+        this.$on(FormulaEvents.typing, (text: string) => {
+            this.selected.current.text(text);
+        })
+        this.$on(FormulaEvents.enter, () => {
+            this.selected.current.focus()
+        })
+        this.$subscribe((state: ANY_TODO) => {
+            console.log('Tablestate', state);
+        })
     }
 
     onMousedown(e: MouseEvent): () => void {
@@ -40,6 +55,7 @@ class Table extends ExcelComponent {
                 this.selected.selectGroup($cells)
             } else { // single select
                 this.selected.select($target)
+                this.$dispatch({ type: 'click', data: { a: 1 } })
             }
         }
         return null
@@ -57,27 +73,17 @@ class Table extends ExcelComponent {
     }
 
     onInput(event: ANY_TODO) {
-        this.$dispatch(TableActions.cellInput, $(event.target).text())
+        this.$emit(TableActions.cellInput, $(event.target).text())
     }
 
     prepare() {
         this.selected = new TableSelection();
     }
 
-    init() {
-        super.init();
-        this.selectCell(this.$root.find('[data-id="#0:0"]'))
-        this.$on(FormulaEvents.typing, (text: string) => {
-            this.selected.current.text(text);
-        })
-        this.$on(FormulaEvents.enter, () => {
-            this.selected.current.focus()
-        })
-    }
 
     selectCell($cell: ANY_TODO) {
         this.selected.select($cell);
-        this.$dispatch(TableActions.cellChange, $cell)
+        this.$emit(TableActions.cellChange, $cell)
     }
 }
 export default Table

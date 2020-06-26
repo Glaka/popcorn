@@ -27,6 +27,9 @@ class Formula extends ExcelComponent {
     this.$on(TableActions.cellInput, (text: string) => {
       this.$formula.text(text)
     })
+    this.$subscribe((state: ANY_TODO) => {
+      console.log('Formula state', state);
+    })
   }
   toHTML() {
     return `
@@ -38,14 +41,14 @@ class Formula extends ExcelComponent {
   // onInput(event: InputEvent) {
   onInput(event: ANY_TODO) {
     // const text = event.target.textContent.trim();
-    this.$dispatch(FormulaEvents.typing, $(event.target).text())
+    this.$emit(FormulaEvents.typing, $(event.target).text())
   }
 
   onKeydown(event: ANY_TODO) {
     const keys = ['Enter', 'Tab']
     if (keys.includes(event.key)) {
       event.preventDefault();
-      this.$dispatch(FormulaEvents.enter)
+      this.$emit(FormulaEvents.enter)
     }
   }
 
