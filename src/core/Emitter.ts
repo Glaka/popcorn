@@ -6,11 +6,8 @@ export class Emitter {
     }
 
     dispatch(event: ANY_TODO, ...args: ANY_TODO) {
-        if (!Array.isArray(this.listeners[event])) {
-            return false
-        }
+        if (!Array.isArray(this.listeners[event])) return false
         this.listeners[event].forEach((listener: ANY_TODO) => {
-            console.log("Emitter -> dispatch -> listener", listener)
             listener(...args)
         });
         return true

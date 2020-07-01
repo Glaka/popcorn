@@ -7,6 +7,7 @@ import { $ } from '../../core/dom';
 import { ExcelComponent } from "../../core/ExcelComponent";
 import { shouldResize, shouldCellSelect, getCellsMatrix, nextSelector, TableKeys } from './tableUtils';
 import { FormulaEvents } from '../formula/Formula';
+import { tableResize } from '../../redux/actions';
 
 export enum TableActions {
     cellChange = 'table:cell_change',
@@ -25,7 +26,7 @@ class Table extends ExcelComponent {
     }
 
     toHTML() {
-        return createTable(20);
+        return createTable(20, this.store.getState());
     }
 
     init() {
@@ -45,7 +46,7 @@ class Table extends ExcelComponent {
     async resizeTable(e: MouseEvent) {
         try {
             const data = await tableResizeHandler(e, this.$root)
-            this.$dispatch({ type: 'TABLE_RESIZE', data })
+            this.$dispatch(tableResize(data))
         } catch (e) {
             console.warn('error message', e)
         }

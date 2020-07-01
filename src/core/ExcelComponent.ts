@@ -11,7 +11,6 @@ export class ExcelComponent extends DomListener {
     this.prepare()
     this.unsubscribers = []
     this.storeSub = null
-    console.log("ExcelComponent -> constructor -> options", options)
   }
 
   prepare() {
