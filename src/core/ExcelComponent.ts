@@ -22,6 +22,8 @@ export class ExcelComponent extends DomListener {
   }
 
   $emit(event: ANY_TODO, ...args: ANY_TODO) {
+    console.log('args ', ...args);
+
     this.emitter.dispatch(event, ...args)
   }
 

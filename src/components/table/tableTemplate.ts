@@ -67,7 +67,10 @@ const createRow = (data: string, state: any = null, index: string | number = '')
 };
 
 const createCell = (row: number, state: ANY_TODO) => {
-    return (text = 'text', col: number) => {
+    return (_ = '', col: number) => {
+        const text = state.tableState.dataState[`#${row}:${col}`] || ''
+        console.log(text, col);
+
         const size = getSize(state, col);
         return `<div 
             class="cell"  

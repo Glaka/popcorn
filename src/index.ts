@@ -7,17 +7,8 @@ import Table from './components/table/Table';
 import Header from './components/header/Header';
 import Toolbar from './components/toolbar/Toolbar';
 import Formula from './components/formula/Formula';
+import { initialState } from './redux/initialState';
 
-// const initialState = {
-//     headerState: {},
-//     toolbarState: {},
-//     formulaState: {},
-//     tableState: {
-//         cols: {},
-//         rows: {}
-//     },
-// }
-const initialState = storage('app_state') || {};
 const store = createStore(rootReducer, initialState);
 
 store.subscribe((state: ANY_TODO) => {

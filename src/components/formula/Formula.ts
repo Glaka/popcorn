@@ -22,13 +22,15 @@ class Formula extends ExcelComponent {
     super.init();
     this.$formula = this.$root.find('#formula');
     this.$on(TableActions.cellChange, ($cell: any) => {
+      console.log('change');
+
       this.$formula.text($cell.text())
     })
-    this.$on(TableActions.cellInput, (text: string) => {
-      this.$formula.text(text)
-    })
+    // this.$on(TableActions.cellInput, (text: string) => {
+    //   this.$formula.text(text)
+    // })
     this.$subscribe((state: ANY_TODO) => {
-      // console.log('Formula state', state);
+      this.$formula.text(state.tableState.currentText)
     })
   }
   toHTML() {
