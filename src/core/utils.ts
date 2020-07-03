@@ -19,3 +19,10 @@ export const storage = (key: ANY_TODO, data: ANY_TODO = null) => {
   }
   localStorage.setItem(key, JSON.stringify(data))
 }
+
+export const isEqual = (a: any, b: any): boolean => {
+  if (typeof a === 'object' && typeof b === 'object') {
+    return JSON.stringify(a) === JSON.stringify(b)
+  }
+  return a === b
+}

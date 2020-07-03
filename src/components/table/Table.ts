@@ -40,9 +40,6 @@ class Table extends ExcelComponent {
         this.$on(FormulaEvents.enter, () => {
             this.selected.current.focus()
         })
-        this.$subscribe((state: ANY_TODO) => {
-            // console.log('Tablestate', state);
-        })
     }
 
     async resizeTable(e: MouseEvent) {
@@ -91,19 +88,13 @@ class Table extends ExcelComponent {
     }
 
     onInput(event: ANY_TODO) {
-        // this.$emit(TableActions.cellInput, $(event.target).text())
-        // this.$dispatch(changeTableCellText({
-        //     id: this.selected.current.id(),
-        //     value: $(event.target).text()
-        // }))
         this.updateTextInStore($(event.target).text())
-        console.log(this.store.getState());
+        // console.log(this.store.getState());
     }
 
     prepare() {
         this.selected = new TableSelection();
     }
-
 
     selectCell($cell: ANY_TODO) {
         this.selected.select($cell);

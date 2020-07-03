@@ -15,6 +15,7 @@ class Formula extends ExcelComponent {
     super($root, {
       name: 'Formula',
       listeners: ['input', 'keydown'],
+      subscribe: ['currentText'], // переписать стор
       ...options
     })
   }
@@ -26,12 +27,15 @@ class Formula extends ExcelComponent {
 
       this.$formula.text($cell.text())
     })
+
     // this.$on(TableActions.cellInput, (text: string) => {
     //   this.$formula.text(text)
     // })
-    this.$subscribe((state: ANY_TODO) => {
-      this.$formula.text(state.tableState.currentText)
-    })
+
+    // this.$subscribe((state: ANY_TODO) => {
+    //   this.$formula.text(state.currentText)
+    // })
+
   }
   toHTML() {
     return `
@@ -44,6 +48,10 @@ class Formula extends ExcelComponent {
   onInput(event: ANY_TODO) {
     // const text = event.target.textContent.trim();
     this.$emit(FormulaEvents.typing, $(event.target).text())
+  }
+
+  storeChanged(changes: any) {
+    console.log('changes', changes);
   }
 
   onKeydown(event: ANY_TODO) {

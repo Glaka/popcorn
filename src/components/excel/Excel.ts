@@ -1,3 +1,4 @@
+import { StoreSubscriber } from './../../core/StoreSubscriber';
 import { Emitter } from './../../core/Emitter';
 import { $ } from '../../core/dom';
 import { ANY_TODO } from '../../core/utils';
@@ -11,12 +12,14 @@ class Excel {
   components: ANY_TODO;
   emitter: Emitter;
   store: object;
+  subscriber: StoreSubscriber;
 
   constructor(selector: string, options: Ioptions) {
     this.$el = $(selector)
     this.components = options.components || []
     this.store = options.store;
     this.emitter = new Emitter();
+    this.subscriber = new StoreSubscriber(this.store);
   }
 
   getRoot() {
@@ -43,10 +46,12 @@ class Excel {
 
   render() {
     this.$el.append(this.getRoot())
+    this.subscriber.subscribeComponents(this.components)
     this.components.forEach((component: ANY_TODO) => component.init())
   }
 
   destroy() {
+    this.subscriber.unsubscribeFromStore()
     this.components.array.forEach((component: ANY_TODO) => {
       component.destroy()
     });

@@ -21,7 +21,8 @@ export const createStore = (rootReducer: ANY_TODO, initialState = {}) => {
             });
         },
         getState() {
-            return state
+            return JSON.parse(JSON.stringify(state))
+            // return state
         }
     }
 }

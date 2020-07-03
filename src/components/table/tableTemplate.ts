@@ -17,10 +17,10 @@ const CODES = {
 };
 
 
-const getSize = ({ tableState }: ANY_TODO, index: ANY_TODO) => {
+const getSize = (state: ANY_TODO, index: ANY_TODO) => {
     return {
-        width: `${tableState.cols[index]}px` || SIZES.width,
-        height: `${tableState.rows[index]}px` || SIZES.height
+        width: `${state.colState[index]}px` || SIZES.width,
+        height: `${state.rowState[index]}px` || SIZES.height
     }
 }
 
@@ -68,8 +68,7 @@ const createRow = (data: string, state: any = null, index: string | number = '')
 
 const createCell = (row: number, state: ANY_TODO) => {
     return (_ = '', col: number) => {
-        const text = state.tableState.dataState[`#${row}:${col}`] || ''
-        console.log(text, col);
+        const text = state.dataState[`#${row}:${col}`] || ''
 
         const size = getSize(state, col);
         return `<div 
@@ -83,7 +82,6 @@ const createCell = (row: number, state: ANY_TODO) => {
 };
 
 const createTable = (rowsCount = 10, state: ANY_TODO = {}) => {
-    console.log("createTable -> store", state.tableState)
     const colsCount = CODES.Z - CODES.A + 1;
     const rows = [];
     const cols = new Array(colsCount)
@@ -111,4 +109,3 @@ const createTable = (rowsCount = 10, state: ANY_TODO = {}) => {
 };
 
 export default createTable
-// console.log(typeof createTable);

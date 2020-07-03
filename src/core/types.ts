@@ -3,6 +3,7 @@ export type rootOptions = {
     name?: string;
     listeners?: string[]
     emitter?: ANY_TODO
+    subscribe?: ANY_TODO
     prepare?(): void
     store?: object
 }
