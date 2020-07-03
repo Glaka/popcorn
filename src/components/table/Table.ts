@@ -91,7 +91,6 @@ class Table extends ExcelComponent {
 
     onInput(event: ANY_TODO) {
         this.updateTextInStore($(event.target).text())
-        this.$emit(TableActions.cellInput, $(event.target).text())
     }
 
     prepare() {

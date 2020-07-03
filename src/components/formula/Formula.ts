@@ -27,11 +27,6 @@ class Formula extends ExcelComponent {
       console.log(`change ${TableActions.cellChange}`);
       this.$formula.text($cell.text())
     })
-
-    this.$on(TableActions.cellInput, (text: string) => {
-      this.$formula.text(text)
-    })
-
   }
   toHTML() {
     return `
@@ -45,8 +40,10 @@ class Formula extends ExcelComponent {
     this.$emit(FormulaEvents.typing, $(event.target).text())
   }
 
-  storeChanged(changes: any) {
-    console.log('storeChanged', changes);
+  storeChanged({ currentText }: any) {
+    console.log('storeChanged', currentText);
+    this.$formula.text(currentText)
+
   }
 
   onKeydown(event: ANY_TODO) {
