@@ -4,7 +4,6 @@ import { IclassName } from "./types"
 class Dom {
   $el: ANY_TODO | null
   constructor(selector: string | HTMLElement) {
-    // // console.log("Dom -> $el", this.$el);
     this.$el = typeof selector === 'string'
       ? document.querySelector(selector)
       : selector
@@ -97,7 +96,6 @@ class Dom {
   }
 
   append(node: ANY_TODO) {
-    // console.log("append -> node", node)
     if (node instanceof Dom) {
       node = node.$el
     }
@@ -117,10 +115,7 @@ class Dom {
   }
 }
 
-// event.target
 export function $(selector: string | HTMLElement) {
-  // // console.log("selector", selector)
-  // // console.log("selector", typeof selector)
   return new Dom(selector)
 }
 

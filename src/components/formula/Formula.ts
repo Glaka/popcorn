@@ -22,19 +22,15 @@ class Formula extends ExcelComponent {
   init() {
     super.init();
     this.$formula = this.$root.find('#formula');
-    this.$on(TableActions.cellChange, ($cell: any) => {
-      console.log('change');
 
+    this.$on(TableActions.cellChange, ($cell: any) => {
+      console.log(`change ${TableActions.cellChange}`);
       this.$formula.text($cell.text())
     })
 
-    // this.$on(TableActions.cellInput, (text: string) => {
-    //   this.$formula.text(text)
-    // })
-
-    // this.$subscribe((state: ANY_TODO) => {
-    //   this.$formula.text(state.currentText)
-    // })
+    this.$on(TableActions.cellInput, (text: string) => {
+      this.$formula.text(text)
+    })
 
   }
   toHTML() {
@@ -46,12 +42,11 @@ class Formula extends ExcelComponent {
 
   // onInput(event: InputEvent) {
   onInput(event: ANY_TODO) {
-    // const text = event.target.textContent.trim();
     this.$emit(FormulaEvents.typing, $(event.target).text())
   }
 
   storeChanged(changes: any) {
-    console.log('changes', changes);
+    console.log('storeChanged', changes);
   }
 
   onKeydown(event: ANY_TODO) {

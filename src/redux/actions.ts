@@ -8,7 +8,6 @@ import { Actions } from './actionTypes';
 // }
 
 export const tableResize = (data: ANY_TODO) => {
-    // console.log(data);
     return {
         type: Actions.resizeTable,
         data
@@ -16,7 +15,6 @@ export const tableResize = (data: ANY_TODO) => {
 }
 
 export const changeTableCellText = (data: { value: string, id: string }) => {
-    console.log(data);
     return {
         type: Actions.changeTablecellText,
         data

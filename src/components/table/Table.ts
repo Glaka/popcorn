@@ -21,6 +21,7 @@ class Table extends ExcelComponent {
         super($root, {
             name: 'Table',
             listeners: ['mousedown', 'keydown', 'input'],
+            subscribe: ['dataState', 'currentText'],
             ...options
         });
     }
@@ -64,6 +65,7 @@ class Table extends ExcelComponent {
             } else { // single select
                 this.selected.select($target)
                 this.$dispatch({ type: 'click', data: { a: 1 } })
+                this.selectCell($target)
             }
         }
         return null
@@ -89,7 +91,7 @@ class Table extends ExcelComponent {
 
     onInput(event: ANY_TODO) {
         this.updateTextInStore($(event.target).text())
-        // console.log(this.store.getState());
+        this.$emit(TableActions.cellInput, $(event.target).text())
     }
 
     prepare() {
@@ -97,6 +99,8 @@ class Table extends ExcelComponent {
     }
 
     selectCell($cell: ANY_TODO) {
+        console.log($cell);
+
         this.selected.select($cell);
         this.$emit(TableActions.cellChange, $cell)
     }
