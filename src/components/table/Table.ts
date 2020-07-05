@@ -1,3 +1,4 @@
+import { defaultStyles } from './../../constatnts';
 import { ANY_TODO } from './../../core/utils';
 import { Ielement } from './../../core/types';
 import { TableSelection } from './TableSelection';
@@ -7,6 +8,8 @@ import { $ } from '../../core/dom';
 import { ExcelComponent } from "../../core/ExcelComponent";
 import { shouldResize, shouldCellSelect, getCellsMatrix, nextSelector, TableKeys } from './tableUtils';
 import { FormulaEvents } from '../formula/Formula';
+import { tableResize, changeTableCellText, getCurrentCellStyles, applyStyles } from '../../redux/actions';
+import { parse } from '../../core/parse';
 
 export enum TableActions {
     cellChange = 'table:cell_change',
@@ -20,17 +23,48 @@ class Table extends ExcelComponent {
         super($root, {
             name: 'Table',
             listeners: ['mousedown', 'keydown', 'input'],
+            subscribe: ['dataState', 'currentText'],
             ...options
         });
     }
+
     toHTML() {
-        return createTable(20);
+        return createTable(20, this.store.getState());
+    }
+
+    init() {
+        super.init();
+        this.selectCell(this.$root.find('[data-id="#0:0"]'))
+        this.$on(FormulaEvents.typing, (value: string) => {
+            this.selected.current.attr('data-value', value)
+            this.selected.current.text(parse(value));
+            this.updateTextInStore(value)
+
+        })
+        this.$on(FormulaEvents.enter, () => {
+            this.selected.current.focus()
+        })
+        this.$on('toolbar:select_style', (value: any) => {
+            this.selected.applyStyle(value)
+            this.$dispatch(applyStyles({
+                value,
+                ids: this.selected.selectedIds
+            }))
+        })
+    }
+
+    async resizeTable(e: MouseEvent) {
+        try {
+            const data = await tableResizeHandler(e, this.$root)
+            this.$dispatch(tableResize(data))
+        } catch (e) {
+            console.warn('error message', e)
+        }
     }
 
     onMousedown(e: MouseEvent): () => void {
-
         if (shouldResize(e)) {
-            tableResizeHandler(e, this.$root)
+            this.resizeTable(e);
         } else if (shouldCellSelect(e)) {
             const $target = $(event.target as HTMLElement);
             if (e.shiftKey) {
@@ -40,6 +74,7 @@ class Table extends ExcelComponent {
                 this.selected.selectGroup($cells)
             } else { // single select
                 this.selected.select($target)
+                this.selectCell($target)
             }
         }
         return null
@@ -56,28 +91,25 @@ class Table extends ExcelComponent {
         }
     }
 
+    updateTextInStore(value: string) {
+        this.$dispatch(changeTableCellText({
+            id: this.selected.current.id(),
+            value
+        }))
+    }
+
     onInput(event: ANY_TODO) {
-        this.$dispatch(TableActions.cellInput, $(event.target).text())
+        this.updateTextInStore($(event.target).text())
     }
 
     prepare() {
         this.selected = new TableSelection();
     }
 
-    init() {
-        super.init();
-        this.selectCell(this.$root.find('[data-id="#0:0"]'))
-        this.$on(FormulaEvents.typing, (text: string) => {
-            this.selected.current.text(text);
-        })
-        this.$on(FormulaEvents.enter, () => {
-            this.selected.current.focus()
-        })
-    }
-
     selectCell($cell: ANY_TODO) {
         this.selected.select($cell);
-        this.$dispatch(TableActions.cellChange, $cell)
+        this.$emit(TableActions.cellChange, $cell)
+        this.$dispatch(getCurrentCellStyles($cell.getStyles(Object.keys(defaultStyles))))
     }
 }
 export default Table

@@ -3,7 +3,9 @@ export type rootOptions = {
     name?: string;
     listeners?: string[]
     emitter?: ANY_TODO
+    subscribe?: ANY_TODO
     prepare?(): void
+    store?: object
 }
 
 export type IclassName = string | string[];
@@ -16,4 +18,6 @@ export type Ielement = {
     find(dataID: string): Ielement;
     findAll(dataID: string): Ielement;
     text?(): void
+    html?(html: string): void
+    css?(style: object): void
 } & HTMLElement

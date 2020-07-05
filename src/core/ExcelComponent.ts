@@ -3,13 +3,14 @@ import DomListener from "./DomListener"
 import { Ielement, rootOptions } from "./types";
 
 export class ExcelComponent extends DomListener {
-  constructor($root: Ielement, options: rootOptions = {}) {
+  constructor($root?: Ielement, options: rootOptions = {}) {
     super($root, options.listeners)
     this.name = options.name || '';
     this.emitter = options.emitter;
+    this.store = options.store;
+    this.subscribe = options.subscribe || [];
     this.prepare()
     this.unsubscribers = []
-    console.log("ExcelComponent -> constructor -> options", options)
   }
 
   prepare() {
@@ -20,13 +21,23 @@ export class ExcelComponent extends DomListener {
     return ''
   }
 
-  $dispatch(event: ANY_TODO, ...args: ANY_TODO) {
+  $emit(event: ANY_TODO, ...args: ANY_TODO) {
     this.emitter.dispatch(event, ...args)
   }
 
   $on(event: ANY_TODO, fn: ANY_TODO) {
     const unsub = this.emitter.subscribe(event, fn);
     this.unsubscribers.push(unsub)
+  }
+
+  $dispatch(action: ANY_TODO) {
+    this.store.dispatch(action)
+  }
+
+  storeChanged(chanes: any) { }
+
+  isWatching(key: any) {
+    return this.subscribe.includes(key)
   }
 
   init() {

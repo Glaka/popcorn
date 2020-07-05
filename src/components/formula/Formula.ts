@@ -15,17 +15,19 @@ class Formula extends ExcelComponent {
     super($root, {
       name: 'Formula',
       listeners: ['input', 'keydown'],
+      subscribe: ['currentText'], // переписать стор
       ...options
     })
   }
   init() {
     super.init();
     this.$formula = this.$root.find('#formula');
+
     this.$on(TableActions.cellChange, ($cell: any) => {
-      this.$formula.text($cell.text())
-    })
-    this.$on(TableActions.cellInput, (text: string) => {
-      this.$formula.text(text)
+      const newText = $cell.data.value
+      // BUG TO FIX 
+      console.warn('BUG TO FIX - not changing formula on cell change')
+      this.$formula.text(newText)
     })
   }
   toHTML() {
@@ -37,15 +39,18 @@ class Formula extends ExcelComponent {
 
   // onInput(event: InputEvent) {
   onInput(event: ANY_TODO) {
-    // const text = event.target.textContent.trim();
-    this.$dispatch(FormulaEvents.typing, $(event.target).text())
+    this.$emit(FormulaEvents.typing, $(event.target).text())
+  }
+
+  storeChanged({ currentText }: any) {
+    this.$formula.text(currentText)
   }
 
   onKeydown(event: ANY_TODO) {
     const keys = ['Enter', 'Tab']
     if (keys.includes(event.key)) {
       event.preventDefault();
-      this.$dispatch(FormulaEvents.enter)
+      this.$emit(FormulaEvents.enter)
     }
   }
 

@@ -4,7 +4,6 @@ import { IclassName } from "./types"
 class Dom {
   $el: ANY_TODO | null
   constructor(selector: string | HTMLElement) {
-    // // console.log("Dom -> $el", this.$el);
     this.$el = typeof selector === 'string'
       ? document.querySelector(selector)
       : selector
@@ -58,7 +57,7 @@ class Dom {
   }
 
   text(text?: string) {
-    if (typeof text === 'string') {
+    if (typeof text === 'string' || typeof text === 'number') {
       this.$el.textContent = text
       return this
     }
@@ -66,6 +65,13 @@ class Dom {
       return this.$el.value.trim()
     }
     return this.$el.textContent.trim()
+  }
+
+  getStyles(styles: [] = []) {
+    return styles.reduce((res: any, s) => {
+      res[s] = this.$el.style[s]
+      return res
+    }, {})
   }
 
   id(parse?: boolean) {
@@ -78,6 +84,15 @@ class Dom {
       }
     }
     return this.data.id
+  }
+
+
+  attr(name: any, value: any) {
+    if (value) {
+      this.$el.setAttribute(name, value)
+      return this
+    }
+    return this.$el.getAttribute(name)
   }
 
   getCoordinates() {
@@ -97,7 +112,6 @@ class Dom {
   }
 
   append(node: ANY_TODO) {
-    // console.log("append -> node", node)
     if (node instanceof Dom) {
       node = node.$el
     }
@@ -117,10 +131,7 @@ class Dom {
   }
 }
 
-// event.target
 export function $(selector: string | HTMLElement) {
-  // // console.log("selector", selector)
-  // // console.log("selector", typeof selector)
   return new Dom(selector)
 }
 
