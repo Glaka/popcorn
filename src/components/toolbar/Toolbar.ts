@@ -8,7 +8,6 @@ import { ExcelStateComponent } from '../../core/ExcelStateComponent';
 import { defaultStyles } from '../../constatnts';
 
 export class Toolbar extends ExcelStateComponent {
-  // console.log("Toolbar", Toolbar)
   static className = 'excel__toolbar'
 
   constructor($root: Ielement, options: ANY_TODO) {
@@ -44,7 +43,6 @@ export class Toolbar extends ExcelStateComponent {
   }
 
   storeChanged(changes: any) {
-    console.log(changes);
     this.setState(changes.currentStyles)
   }
 

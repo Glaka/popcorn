@@ -36,10 +36,8 @@ class Table extends ExcelComponent {
         super.init();
         this.selectCell(this.$root.find('[data-id="#0:0"]'))
         this.$on(FormulaEvents.typing, (value: string) => {
-            this.selected.current
-                .attr('data-value', value)
-                .text(parse(value));
-            // this.selected.current.text(value);
+            this.selected.current.attr('data-value', value)
+            this.selected.current.text(parse(value));
             this.updateTextInStore(value)
 
         })
@@ -76,7 +74,6 @@ class Table extends ExcelComponent {
                 this.selected.selectGroup($cells)
             } else { // single select
                 this.selected.select($target)
-                this.$dispatch({ type: 'click', data: { a: 1 } })
                 this.selectCell($target)
             }
         }

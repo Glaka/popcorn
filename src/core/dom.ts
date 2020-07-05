@@ -57,7 +57,7 @@ class Dom {
   }
 
   text(text?: string) {
-    if (typeof text !== 'undefined') {
+    if (typeof text === 'string' || typeof text === 'number') {
       this.$el.textContent = text
       return this
     }
