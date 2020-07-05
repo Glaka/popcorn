@@ -3,7 +3,7 @@ import DomListener from "./DomListener"
 import { Ielement, rootOptions } from "./types";
 
 export class ExcelComponent extends DomListener {
-  constructor($root: Ielement, options: rootOptions = {}) {
+  constructor($root?: Ielement, options: rootOptions = {}) {
     super($root, options.listeners)
     this.name = options.name || '';
     this.emitter = options.emitter;
@@ -22,8 +22,6 @@ export class ExcelComponent extends DomListener {
   }
 
   $emit(event: ANY_TODO, ...args: ANY_TODO) {
-    console.log('args ', ...args);
-
     this.emitter.dispatch(event, ...args)
   }
 

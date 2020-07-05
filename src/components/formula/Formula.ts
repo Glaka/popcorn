@@ -24,8 +24,9 @@ class Formula extends ExcelComponent {
     this.$formula = this.$root.find('#formula');
 
     this.$on(TableActions.cellChange, ($cell: any) => {
-      console.log(`change ${TableActions.cellChange}`);
-      this.$formula.text($cell.text())
+      console.log($cell)
+      // this.$formula.text($cell.text())
+      this.$formula.text($cell.data.value)
     })
   }
   toHTML() {
@@ -41,7 +42,6 @@ class Formula extends ExcelComponent {
   }
 
   storeChanged({ currentText }: any) {
-    console.log('storeChanged', currentText);
     this.$formula.text(currentText)
 
   }

@@ -1,3 +1,4 @@
+import { defaultStyles } from './../../constatnts';
 import { ANY_TODO } from './../../core/utils';
 import { Ielement } from './../../core/types';
 import { TableSelection } from './TableSelection';
@@ -7,7 +8,8 @@ import { $ } from '../../core/dom';
 import { ExcelComponent } from "../../core/ExcelComponent";
 import { shouldResize, shouldCellSelect, getCellsMatrix, nextSelector, TableKeys } from './tableUtils';
 import { FormulaEvents } from '../formula/Formula';
-import { tableResize, changeTableCellText } from '../../redux/actions';
+import { tableResize, changeTableCellText, getCurrentCellStyles, applyStyles } from '../../redux/actions';
+import { parse } from '../../core/parse';
 
 export enum TableActions {
     cellChange = 'table:cell_change',
@@ -33,13 +35,23 @@ class Table extends ExcelComponent {
     init() {
         super.init();
         this.selectCell(this.$root.find('[data-id="#0:0"]'))
-        this.$on(FormulaEvents.typing, (text: string) => {
-            this.selected.current.text(text);
-            this.updateTextInStore(text)
+        this.$on(FormulaEvents.typing, (value: string) => {
+            this.selected.current
+                .attr('data-value', value)
+                .text(parse(value));
+            // this.selected.current.text(value);
+            this.updateTextInStore(value)
 
         })
         this.$on(FormulaEvents.enter, () => {
             this.selected.current.focus()
+        })
+        this.$on('toolbar:select_style', (value: any) => {
+            this.selected.applyStyle(value)
+            this.$dispatch(applyStyles({
+                value,
+                ids: this.selected.selectedIds
+            }))
         })
     }
 
@@ -98,10 +110,9 @@ class Table extends ExcelComponent {
     }
 
     selectCell($cell: ANY_TODO) {
-        console.log($cell);
-
         this.selected.select($cell);
         this.$emit(TableActions.cellChange, $cell)
+        this.$dispatch(getCurrentCellStyles($cell.getStyles(Object.keys(defaultStyles))))
     }
 }
 export default Table

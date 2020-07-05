@@ -18,4 +18,6 @@ export type Ielement = {
     find(dataID: string): Ielement;
     findAll(dataID: string): Ielement;
     text?(): void
+    html?(html: string): void
+    css?(style: object): void
 } & HTMLElement

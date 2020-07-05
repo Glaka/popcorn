@@ -1,4 +1,6 @@
-import { ANY_TODO } from './../../core/utils';
+import { defaultStyles } from './../../constatnts';
+import { ANY_TODO, tiInineStyles } from './../../core/utils';
+import { parse } from '../../core/parse';
 
 const SIZES = {
     width: '120px',
@@ -69,6 +71,10 @@ const createRow = (data: string, state: any = null, index: string | number = '')
 const createCell = (row: number, state: ANY_TODO) => {
     return (_ = '', col: number) => {
         const text = state.dataState[`#${row}:${col}`] || ''
+        const styles = tiInineStyles({
+            ...defaultStyles,
+            ...state.stylesState[`#${row}:${col}`]
+        })
 
         const size = getSize(state, col);
         return `<div 
@@ -76,8 +82,9 @@ const createCell = (row: number, state: ANY_TODO) => {
             data-col="${col}" 
             data-id="#${row}:${col}" 
             data-type="cell"
-            style="width: ${size.width}" 
-            contenteditable>${text}</div>`;
+            data-value="${text || ''}"
+            style="${styles}; width: ${size.width}" 
+            contenteditable>${parse(text)}</div>`;
     }
 };
 

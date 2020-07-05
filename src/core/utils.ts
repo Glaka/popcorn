@@ -26,3 +26,28 @@ export const isEqual = (a: any, b: any): boolean => {
   }
   return a === b
 }
+
+export const camelToCebab = (camel: string) => {
+  return camel.replace(/[A-Z]/g, m => "-" + m.toLowerCase());
+}
+
+export const tiInineStyles = (styles = {}) => {
+  return Object.keys(styles)
+    .map((key) => {
+      // @ts-expect-error
+      return `${camelToCebab(key)}: ${styles[key]}`
+    })
+    .join('; ')
+}
+
+export function debounce(fn: { apply: (arg0: any, arg1: any) => void; }, wait: number) {
+  let timeout: NodeJS.Timeout
+  return function (...args: any) {
+    const later = () => {
+      clearTimeout(timeout)
+      fn.apply(this, args)
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+  }
+}

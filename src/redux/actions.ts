@@ -20,3 +20,24 @@ export const changeTableCellText = (data: { value: string, id: string }) => {
         data
     }
 }
+
+export const getCurrentCellStyles = (data: ANY_TODO) => {
+    return {
+        type: Actions.currentCellStyle,
+        data
+    }
+}
+
+export const applyStyles = (data: ANY_TODO) => {
+    return {
+        type: Actions.applyStyle,
+        data
+    }
+}
+
+export const changeTitle = (data: ANY_TODO) => {
+    return {
+        type: Actions.changeTitle,
+        data
+    }
+}

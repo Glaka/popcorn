@@ -1,3 +1,4 @@
+import { ANY_TODO } from './../../core/utils';
 // import { $ } from "../../core/dom";
 import { Ielement } from "../../core/types";
 
@@ -31,5 +32,15 @@ export class TableSelection {
         this.group.forEach($el => {
             $el.addClass([TableSelection.className])
         });
+    }
+
+    applyStyle(style: any) {
+        this.group.forEach($el => {
+            $el.css(style)
+        });
+    }
+
+    get selectedIds() {
+        return this.group.map(($el: ANY_TODO) => $el.id())
     }
 }

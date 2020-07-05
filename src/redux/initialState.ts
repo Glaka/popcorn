@@ -1,10 +1,19 @@
+import { ANY_TODO } from './../core/utils';
+import { defaultStyles, defaultTitle } from './../constatnts';
 import { storage } from "../core/utils";
 
 const defaultState = {
     colState: {},
     rowState: {},
     dataState: {},
-    currentText: ''
+    stylesState: {},
+    currentText: '',
+    titleState: defaultTitle,
+    currentStyles: defaultStyles
 }
 
-export const initialState = storage('app_state') || defaultState;
+const normalizeState = (state: ANY_TODO) => {
+    return state
+}
+
+export const initialState = normalizeState(storage('app_state')) || defaultState;

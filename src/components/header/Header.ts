@@ -1,6 +1,9 @@
+import { defaultTitle } from './../../constatnts';
+import { changeTitle } from './../../redux/actions';
 import { ANY_TODO } from './../../core/utils';
 import { Ielement } from './../../core/types';
 import { ExcelComponent } from "../../core/ExcelComponent"
+import { $ } from '../../core/dom';
 
 class Header extends ExcelComponent {
   static className = 'excel__header';
@@ -8,14 +11,15 @@ class Header extends ExcelComponent {
   constructor($root: Ielement, options: ANY_TODO) {
     super($root, {
       name: 'Header',
-      listeners: [],
+      listeners: ['input'],
       ...options
     });
   }
 
   toHTML() {
+    const title = this.store.getState().titleState || defaultTitle
     return `
-      <input type="text" class="input" value="Новая таблица" />
+      <input type="text" class="input" value="${title}" />
 
       <div>
 
@@ -29,6 +33,11 @@ class Header extends ExcelComponent {
 
       </div>
     `
+  }
+
+  onInput(event: ANY_TODO) {
+    const $target = $(event.target)
+    this.$dispatch(changeTitle($target.text()))
   }
 }
 
